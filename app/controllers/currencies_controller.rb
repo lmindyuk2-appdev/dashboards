@@ -19,11 +19,10 @@ class CurrenciesController < ActionController::Base
   def exchange_rate
     @first_currency = params.fetch("first_currency") 
     @second_currency = params.fetch("second_currency") 
-    exchange_rate_url = "https://api.exchangerate.host/convert?from=#{first_currency}&to=#{second_currency}"
+    exchange_rate_url = "https://api.exchangerate.host/convert?from=#{@first_currency}&to=#{@second_currency}"
     exchange_rate_raw_file = open(exchange_rate_url).read
     exchange_rate_parsed_file = JSON.parse(exchange_rate_raw_file)
-    @exchange_rate = exchange_rate_parsed_file['result']
-
+    @exchange_rate = exchange_rate_parsed_file['info']['rate']
     render({:template => "currency_templates/step_three.html.erb"})
   end
 end
